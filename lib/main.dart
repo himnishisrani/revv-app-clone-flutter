@@ -83,6 +83,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
 
   @override
   Widget build(BuildContext context) {
+    bool _obscureText = true;
     return Form(
       child: Padding(
           padding: const EdgeInsets.all(10),
@@ -157,11 +158,21 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> {
                       return null;
                     }
                   },
-                  // controller: nameController,
-                  decoration: const InputDecoration(
+                  decoration: InputDecoration(
                     border: OutlineInputBorder(),
                     labelText: 'Password',
+                    // suffixIcon: IconButton(
+                    //   icon: Icon(
+                    //     _obscureText ? Icons.visibility : Icons.visibility_off,
+                    //   ),
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       _obscureText = !_obscureText;
+                    //     });
+                    //   },
+                    // ),
                   ),
+                  obscureText: _obscureText,
                 ),
               ),
               TextButton(
