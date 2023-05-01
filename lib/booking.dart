@@ -1,4 +1,3 @@
-
 // ignore_for_file: unused_import
 
 import 'package:flutter/material.dart';
@@ -16,6 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  dynamic currentIndex = 0;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -26,7 +26,7 @@ class _MyAppState extends State<MyApp> {
           backgroundColor: Color.fromARGB(255, 245, 245, 245),
           appBar: AppBar(
             elevation: 0,
-            backgroundColor: Color.fromARGB(255, 245, 245, 245),
+            backgroundColor: Color.fromARGB(255, 255, 255, 255),
             title: Text(
               'My bookings',
               style: TextStyle(
@@ -96,7 +96,9 @@ class _MyAppState extends State<MyApp> {
                 ]),
           ),
           bottomNavigationBar: BottomNavigationBar(
-              items: const <BottomNavigationBarItem>[
+              currentIndex: currentIndex,
+              onTap: (index) => setState(() => currentIndex = index),
+              items: [
                 BottomNavigationBarItem(
                   icon: Icon(Icons.calendar_month),
                   label: 'Bookings',
