@@ -46,10 +46,25 @@ class _MyStatefulWidgetState1 extends State<MyStatefulWidget1> {
   // TextEditingController nameController = TextEditingController();
   // TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
-  dynamic _email;
-  dynamic _password;
-  String _phone = '';
-  String _name = '';
+  String _email = "", _password = "";
+  // Firebase Auth instance
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  void _createAccount() async {
+    try {
+      // Calling the Firebase Auth signInWithEmailAndPassword method to sign in the user
+      UserCredential user = await _auth.createUserWithEmailAndPassword(
+          email: _email, password: _password);
+      CircularProgressIndicator();
+      // If the user is signed in successfully, then the user is navigated to the Feed page
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MyApp2()),
+      );
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -100,6 +115,7 @@ class _MyStatefulWidgetState1 extends State<MyStatefulWidget1> {
               Container(
                 padding: const EdgeInsets.all(10),
                 child: TextFormField(
+                  onChanged: (value) => _password = value,
                   obscureText: true, // Obscures the text
                   validator: (value) {
                     if (value?.trim().isEmpty ?? false) {
@@ -125,23 +141,7 @@ class _MyStatefulWidgetState1 extends State<MyStatefulWidget1> {
                   child: ElevatedButton(
                     child: const Text('Sign Up'),
                     onPressed: () {
-                      if (_formKey.currentState?.validate() ?? false) {
-                        _formKey.currentState?.save();
-                        // Do something with the collected data.
-                        FirebaseAuth.instance
-                            .createUserWithEmailAndPassword(
-                                email: _email, password: _password)
-                            .then((value) {
-                          print("Created New Account");
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (_) => MyApp2(),
-                            ),
-                          );
-                        }).onError((error, stackTrace) {
-                          print("Error ${error.toString()}");
-                        });
-                      }
+                      _createAccount();
                     },
                   )),
             ],
